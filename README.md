@@ -11,6 +11,9 @@ is marked `@[category research open]`.
 
 This repository presents a Lean proof attempt for that formalized target.
 
+You can check the Lean4Web version in your browser:
+[Open in Lean4Web](https://live.lean-lang.org/#url=https%3A%2F%2Fraw.githubusercontent.com%2FKitaKen1%2Fwowii-graph-conjecture-2-lean%2Fmain%2Flean4web%2FGraphConjecture2Lean4Web.lean).
+
 ## Formalized target
 
 ```lean
