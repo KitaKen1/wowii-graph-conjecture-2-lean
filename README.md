@@ -17,8 +17,8 @@ You can check the Lean4Web version in your browser:
 ## Formalized target
 
 ```lean
-theorem conjecture2 (G : SimpleGraph α) (hG : G.Connected) :
-    2 * (G.averageIndepNeighbors - 1) ≤ G.Ls
+theorem conjecture2 (G : SimpleGraph α) (h : G.Connected) :
+  2 * (averageIndepNeighbors G - 1) ≤ Ls G
 ```
 
 In ordinary mathematical language, this says that for every finite connected

@@ -670,12 +670,12 @@ theorem conjecture2_of_nontrivial [Nontrivial α]
     _ ≤ (leafCount T : ℝ) := hleafReal
     _ ≤ G.Ls := hLs
 
-theorem conjecture2 (G : SimpleGraph α) (hG : G.Connected) :
-    2 * (G.averageIndepNeighbors - 1) ≤ G.Ls := by
+theorem conjecture2 (G : SimpleGraph α) (h : G.Connected) :
+    2 * (averageIndepNeighbors G - 1) ≤ Ls G := by
   classical
   rcases subsingleton_or_nontrivial α with hα | hα
   · letI : Subsingleton α := hα
-    haveI : Nonempty α := hG.nonempty
+    haveI : Nonempty α := h.nonempty
     have hGbot : G = ⊥ := by
       ext v w
       simp only [SimpleGraph.bot_adj, iff_false]
@@ -705,7 +705,7 @@ theorem conjecture2 (G : SimpleGraph α) (hG : G.Connected) :
     rw [havg]
     exact (by norm_num : (2 : ℝ) * (0 - 1) ≤ 0).trans hLs
   · letI : Nontrivial α := hα
-    exact conjecture2_of_nontrivial G hG
+    exact conjecture2_of_nontrivial G h
 
 #check conjecture2
 #print axioms conjecture2
