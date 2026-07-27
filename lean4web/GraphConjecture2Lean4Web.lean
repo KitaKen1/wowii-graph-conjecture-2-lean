@@ -647,7 +647,8 @@ lemma leafCount_le_Ls {G T : SimpleGraph α}
     (leafCount T : ℝ)
   rw [leafCount, hleaves]
 
-theorem conjecture2 [Nontrivial α] (G : SimpleGraph α) (hG : G.Connected) :
+theorem conjecture2_of_nontrivial [Nontrivial α]
+    (G : SimpleGraph α) (hG : G.Connected) :
     2 * (G.averageIndepNeighbors - 1) ≤ G.Ls := by
   classical
   obtain ⟨H, instH, hHG, hfree, hdeg⟩ :=
@@ -699,6 +700,43 @@ theorem conjecture2 [Nontrivial α] (G : SimpleGraph α) (hG : G.Connected) :
       nlinarith [havg, hsumdeg]
     _ ≤ (leafCount T : ℝ) := hleafReal
     _ ≤ G.Ls := hLs
+
+theorem conjecture2 (G : SimpleGraph α) (hG : G.Connected) :
+    2 * (G.averageIndepNeighbors - 1) ≤ G.Ls := by
+  classical
+  rcases subsingleton_or_nontrivial α with hα | hα
+  · letI : Subsingleton α := hα
+    haveI : Nonempty α := hG.nonempty
+    have hGbot : G = ⊥ := by
+      ext v w
+      simp only [SimpleGraph.bot_adj, iff_false]
+      intro hvw
+      exact hvw.ne (Subsingleton.elim v w)
+    subst G
+    have hindep (x : α) :
+        ((⊥ : SimpleGraph α).induce ((⊥ : SimpleGraph α).neighborSet x)).indepNum = 0 := by
+      letI : IsEmpty ((⊥ : SimpleGraph α).neighborSet x) :=
+        ⟨fun y => (SimpleGraph.bot_adj x y).mp y.property⟩
+      obtain ⟨s, hs⟩ :=
+        SimpleGraph.exists_isNIndepSet_indepNum
+          (G := (⊥ : SimpleGraph α).induce ((⊥ : SimpleGraph α).neighborSet x))
+      have hs0 : s = ∅ := Finset.eq_empty_of_forall_notMem isEmptyElim
+      simpa [hs0] using hs.card_eq.symm
+    have havg : (⊥ : SimpleGraph α).averageIndepNeighbors = 0 := by
+      unfold SimpleGraph.averageIndepNeighbors SimpleGraph.indepNeighbors
+        SimpleGraph.indepNeighborsCard
+      simp_rw [hindep]
+      simp
+    have hLs : (0 : ℝ) ≤ (⊥ : SimpleGraph α).Ls := by
+      have htree : (⊥ : SimpleGraph α).IsTree :=
+        SimpleGraph.IsTree.of_subsingleton
+      simpa [leafCount] using
+        (leafCount_le_Ls (G := (⊥ : SimpleGraph α)) (T := (⊥ : SimpleGraph α))
+          le_rfl htree)
+    rw [havg]
+    exact (by norm_num : (2 : ℝ) * (0 - 1) ≤ 0).trans hLs
+  · letI : Nontrivial α := hα
+    exact conjecture2_of_nontrivial G hG
 
 #eval Lean.versionString
 #check conjecture2

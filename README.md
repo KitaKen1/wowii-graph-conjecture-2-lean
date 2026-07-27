@@ -1,4 +1,4 @@
-# Written on the Wall II, Graph Conjecture 2 — Lean Proof Attempt
+# Written on the Wall II, Graph Conjecture 2 — Lean Proof
 
 Written on the Wall II (WOWII), Graph Conjecture 2 is an open problem in
 graph theory concerning the number of leaves in spanning trees.
@@ -9,7 +9,7 @@ mathlib. Its
 [Lean entry for this problem](https://github.com/google-deepmind/formal-conjectures/blob/5a60e068cceb4edffa992dd0bdbda8c6c17185c5/FormalConjectures/WrittenOnTheWallII/GraphConjecture2.lean)
 is marked `@[category research open]`.
 
-This repository presents a Lean proof attempt for that formalized target.
+This repository presents a Lean proof of that formalized target.
 
 You can check the Lean4Web version in your browser:
 [Open in Lean4Web](https://live.lean-lang.org/#url=https%3A%2F%2Fraw.githubusercontent.com%2FKitaKen1%2Fwowii-graph-conjecture-2-lean%2Fmain%2Flean4web%2FGraphConjecture2Lean4Web.lean).
@@ -17,19 +17,19 @@ You can check the Lean4Web version in your browser:
 ## Formalized target
 
 ```lean
-theorem conjecture2 [Nontrivial α]
-    (G : SimpleGraph α) (hG : G.Connected) :
+theorem conjecture2 (G : SimpleGraph α) (hG : G.Connected) :
     2 * (G.averageIndepNeighbors - 1) ≤ G.Ls
 ```
 
-In ordinary mathematical language, this says that for every finite
-nontrivial connected simple graph, the maximum number of leaves in a spanning
-tree is at least twice the average neighbourhood independence number minus
-two.
+In ordinary mathematical language, this says that for every finite connected
+simple graph, the maximum number of leaves in a spanning tree is at least twice
+the average neighbourhood independence number minus two. The proof handles the
+one-vertex case separately and uses the main graph-theoretic argument when the
+vertex type is nontrivial.
 
 ## Status
 
-- Status: proof attempt
+- Status: locally checked proof
 - Local build: Lean 4.27.0 / mathlib v4.27.0
 - Lean4Web compatibility target: Latest Mathlib with Lean v4.33.0-rc1
   on 2026-07-26
@@ -113,6 +113,9 @@ Combining these inequalities gives:
 ```text
 Ls(G) ≥ 2(μ̄ - 1).
 ```
+
+For a one-vertex connected graph, the average neighbourhood independence
+number and `Ls` are both zero, so the inequality holds directly.
 
 The Lean proof uses a maximal acyclic extension in Step 4 instead of
 formalizing a vertex-by-vertex extension of the double star.

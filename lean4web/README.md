@@ -1,7 +1,6 @@
 # Lean4Web version
 
-`GraphConjecture2Lean4Web.lean` is the single-file version of the proof
-attempt.
+`GraphConjecture2Lean4Web.lean` is the single-file version of the proof.
 
 Compatibility target:
 
@@ -40,6 +39,6 @@ There should be no `sorryAx`.
 
 ## Status
 
-This is a proof attempt shared for review. Lean4Web’s “Latest Mathlib”
-environment changes over time, so successful local checking of the pinned
-project in `../lean/` is the reproducible reference result.
+This proof is shared for review. Lean4Web’s “Latest Mathlib” environment
+changes over time, so successful local checking of the pinned project in
+`../lean/` is the reproducible reference result.
